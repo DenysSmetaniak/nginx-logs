@@ -1,0 +1,34 @@
+# Ignore log files
+#logs/
+#formating-logs/
+
+# Ignore the Python virtual environment
+venv/
+.env
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.log
+
+# Ignore IDE configuration files
+.vscode/
+.idea/
+*.iml
+
+# Ignore Docker cache and builds
+*.tar
+*.gz
+*.zip
+*.swp
+docker-compose.override.yml
+
+# Ignore GitHub Actions source files
+.github/workflows/*.log
+.github/workflows/*.bak
+
+# Ignore Terraform and CI/CD artifacts
+.terraform/
+*.tfstate
+*.tfstate.backup

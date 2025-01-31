@@ -20,12 +20,12 @@ class NginxLogAnalyzer:
         return match.groupdict() if match else None
 
     def read_logs(self):
-        """ Зчитує лог-файл і парсить кожен рядок. """
+        """ Reads the log file and parses each line """
         with open(self.log_file, "r") as file:
             return [self.parse_log_line(line) for line in file if self.parse_log_line(line)]
 
     def filter_logs(self, logs, ip=None, status=None, method=None, start_date=None, end_date=None):
-        """ Фільтрує логи за вказаними параметрами. """
+        """ Filters logs by the specified parameters """
         def log_filter(log):
             if ip and log['ip'] != ip:
                 return False
@@ -44,13 +44,13 @@ class NginxLogAnalyzer:
         return list(filter(log_filter, logs))
 
     def sort_logs(self, logs, key, reverse=False):
-        """ Сортує логи за вказаним ключем. """
+        """ Sorts logs by the specified key """
         if key == "size":
             return sorted(logs, key=lambda log: int(log[key]) if log[key].isdigit() else 0, reverse=True)
         return sorted(logs, key=lambda log: log[key], reverse=reverse)
 
     def write_to_csv(self, logs):
-        """ Записує оброблені логи у CSV-файл. """
+        """ Saves the processed logs to a CSV file """
         fieldnames = ["ip", "datetime", "method", "path", "status", "size", "agent"]
         with open(self.output_file, "w", newline="") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -58,7 +58,7 @@ class NginxLogAnalyzer:
             writer.writerows(logs)
 
     def ensure_git_repo(self):
-        """ Перевіряє, чи директорія є Git-репозиторієм, і ініціалізує його, якщо потрібно. """
+        """ Checks if the directory is a Git repository and initializes it if necessary """
         try:
             subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], check=True, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
@@ -70,7 +70,7 @@ class NginxLogAnalyzer:
 
     def commit_to_git(self):
         try:
-            # Перевіряємо, чи директорія є Git-репозиторієм
+            # Check if the directory is a Git repository
             subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], check=True, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
         except subprocess.CalledProcessError:
@@ -79,10 +79,10 @@ class NginxLogAnalyzer:
             subprocess.run(["git", "branch", "-M", "main"], check=True)
             print("Git repository initialized.")
 
-        # Додаємо вихідний CSV-файл у Git
+        # Add the source CSV file to Git
         subprocess.run(["git", "add", self.output_file], check=True)
 
-        # Перевіряємо, чи є зміни перед комітом
+        # Check if there are changes before the committee
         status_output = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
         if status_output.stdout.strip():  # Якщо є зміни
             try:
@@ -94,7 +94,7 @@ class NginxLogAnalyzer:
             print("No changes detected. Skipping commit.")
 
     def process_logs(self, filters, sort_key=None, reverse=False):
-        """ Основний процес обробки логів. """
+        """ The main process of log processing """
         logs = self.read_logs()
         logs = self.filter_logs(
             logs,
@@ -112,7 +112,7 @@ class NginxLogAnalyzer:
 
 
 def parse_arguments():
-    """ Обробляє аргументи командного рядка. """
+    """ Processes command line arguments """
     parser = argparse.ArgumentParser(description="Nginx Log Analyzer")
     parser.add_argument("--log-file", type=str, required=True, help="Path to the Nginx log file")
     parser.add_argument("--output-file", type=str, required=True, help="Path to the output CSV file")
