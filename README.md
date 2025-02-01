@@ -19,14 +19,14 @@
 
 #### 1.1. Set up dependencies:
    
-```
-   pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
 ```
 
 #### 1.2. Run the log analysis script:
 
 ```
-  ./run.sh --log-file logs/nginx.log --output-file formating-logs/logs.csv --sort-by size
+./run.sh --log-file logs/nginx.log --output-file formating-logs/logs.csv --sort-by size
 ```
 > 📌 The script automatically initializes Git (if it does not exist) and commits changes
 
@@ -39,7 +39,7 @@
 #### 2.1. In the same directory as the Dockerfile, build the Docker image:
 
 ```
-  docker build -t log-analyzer .
+docker build -t log-analyzer .
 ```
 
 #### 2.2. When the Docker image is successfully built, run the container:
