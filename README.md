@@ -66,7 +66,7 @@ docker run --rm \
 ### 🔐 4. Setting up GitHub Secrets variables
 For CI/CD to work correctly, you need to add Secrets to GitHub:
 | №    | Name of the tool | Description |
-| :--- |  :-----:         | ----:       |
+| :--- |  :-----         | :----       |
 | 1    | DOCKER_USERNAME | Login from Docker Hub |
 | 2    | DOCKER_PASSWORD | Password from Docker Hub |
 | 3    | GIT_USER | Username for commits (for example, TestEngineer) |
