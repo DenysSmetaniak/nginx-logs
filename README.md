@@ -19,7 +19,7 @@
 
 #### 1.1. Set up dependencies:
    
-```bash
+```
 pip install -r requirements.txt
 ```
 
@@ -62,3 +62,50 @@ docker run --rm \
 - Performs a test run of the analyzer
 - Creates a Docker image and pushes it to Docker Hub
 - Automatically updates logs.csv in the repository
+
+### 🔐 4. Setting up GitHub Secrets variables
+For CI/CD to work correctly, you need to add Secrets to GitHub:
+| DOCKER_USERNAME | Login from Docker Hub |
+| DOCKER_PASSWORD | Password from Docker Hub |
+| GIT_USER | Username for commits (for example, TestEngineer) |
+| GIT_EMAIL | Email for commits (for example, testenginer@gmail.com) |
+
+> 📌 Make sure that GitHub Actions has write permissions to the repository:
+```
+Settings → Actions → Workflow permissions → Read and write permissions
+```
+
+### 📂 5. Project structure
+```
+/log-analyzer
+│── .github/workflows/log-analyzer-ci.yml  # CI/CD configuration of GitHub Actions
+│── formating-logs/                        # Saved CSV files
+│── logs/                                  # Nginx input logs
+│── run.sh                                 # Bash script to run
+│── log_analyze.py                         # Python script for analyzing logs
+│── requirements.txt                       # Python dependencies
+│── Dockerfile                             # Configuring a Docker image
+│── .gitignore                             # Ignoring files in Git
+│── README.md                              # Project documentation
+```
+
+### 🔥 6. Examples of use
+#### 📌 Filtering by IP:
+```
+./run.sh --log-file logs/nginx.log --output-file formating-logs/logs.csv --filter-ip "192.168.226.64"
+```
+
+#### 📌 Filtering by status code:
+```
+./run.sh --log-file logs/nginx.log --output-file formating-logs/logs.csv --filter-status "200"
+```
+
+#### 📌 Sort by response size (from largest to smallest):
+```
+./run.sh --log-file logs/nginx.log --output-file formating-logs/logs.csv --sort-by size --reverse
+```
+
+#### 📌 Sort by time (from newest to oldest):
+```
+./run.sh --log-file logs/nginx.log --output-file formating-logs/logs.csv --sort-by datetime --reverse
+```
