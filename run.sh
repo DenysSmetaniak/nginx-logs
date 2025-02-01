@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Отримуємо поточну директорію скрипта
+# Get the current directory of the script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR" || exit 1  # Переходимо в директорію скрипта
+cd "$SCRIPT_DIR" || exit 1
 
-# Перевірка та ініціалізація Git, якщо потрібно
+# Check and initialize Git
 if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     echo "Initializing Git repository in $SCRIPT_DIR..."
     git init
@@ -14,5 +14,5 @@ else
     echo "Git repository already exists in $SCRIPT_DIR."
 fi
 
-# Запуск Python-скрипта
+# Running a Python script
 python3 log_analyze.py "$@"
