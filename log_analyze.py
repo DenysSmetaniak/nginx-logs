@@ -60,8 +60,7 @@ class NginxLogAnalyzer:
     def ensure_git_repo(self):
         """ Checks if the directory is a Git repository and initializes it if necessary """
         try:
-            subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], check=True, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+            subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except subprocess.CalledProcessError:
             print("Initializing Git repository in current directory...")
             subprocess.run(["git", "init"], check=True)
